@@ -1,0 +1,48 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+class LocalizationPackageTranslatedValues extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::create('localization_package_translated_values', function (Blueprint $table) {
+            $table->id();
+            $table->string('text');
+
+            $table->unsignedBigInteger('localization_package_translated_keys_id');
+            $table->unsignedBigInteger('localization_package_languages_id');
+
+            $table->foreign('localization_package_translated_keys_id', 'translated_keys_foreign_id')
+                    ->references('id')
+                    ->on('localization_package_translated_keys')
+                    ->onUpdate('cascade')
+                    ->onDelete('cascade');
+
+            $table->foreign('localization_package_languages_id', 'languages_foreign_id')
+                ->references('id')
+                ->on('localization_package_languages')
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
+
+            $table->timestamps();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::dropIfExists('localization_package_translated_values');
+    }
+}

@@ -1,0 +1,12 @@
+{
+    "name": "rinordreshaj/localization",
+    "description": "Localization laravel",
+    "type": "library",
+    "authors": [
+        {
+            "name": "Rinor Dreshaj",
+            "email": "rinor@apper.ch"
+        }
+    ],
+    "require": {}
+}
