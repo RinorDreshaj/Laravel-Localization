@@ -1,3 +1,10 @@
+#### INSTALLING VIA COMPOSER
+
+```
+composer require rinordreshaj/localization
+```
+
+
 #### PUBLISHING ASSETS
 
 ```
