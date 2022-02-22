@@ -8,6 +8,11 @@
             "email": "rinor@apper.ch"
         }
     ],
+    "autoload": {
+        "psr-4": {
+            "Rinordreshaj\\Localization\\": "src"
+        }
+    },
     "extra": {
         "laravel": {
             "providers": [
