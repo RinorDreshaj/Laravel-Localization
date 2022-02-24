@@ -1,8 +1,6 @@
 <?php
 
-
 namespace Rinordreshaj\Localization\Controllers;
-
 
 use App\Http\Controllers\Controller;
 
