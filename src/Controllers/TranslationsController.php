@@ -14,13 +14,19 @@ class TranslationsController extends MainController
             'language_id' => 'required|integer|exists:localization_package_languages,id',
         ]);
 
-        return $this->success(
-            TranslationKey::select('id', 'translation_key')
-                ->with('translation_values', function ($query) use ($request) {
-                    $query->where('localization_package_languages_id', $request->language_id);
-                })
-                ->get()
-        );
+        $translationKeys = TranslationKey::query()
+            ->select('id', 'translation_key')
+            ->with('translation_values', function ($query) use ($request) {
+                $query->where('localization_package_languages_id', $request->language_id);
+            });
+
+        if ($request->search) {
+            $translationKeys->whereLike([
+                'translation_key'
+            ], request()->get('search') ?? null);
+        }
+
+        return $this->success($translationKeys->paginate(20));
     }
 
     public function store(Request $request): JsonResponse
@@ -72,3 +78,4 @@ class TranslationsController extends MainController
         return $trans;
     }
 }
+
