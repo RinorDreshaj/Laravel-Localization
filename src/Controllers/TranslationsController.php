@@ -41,7 +41,7 @@ class TranslationsController extends MainController
             ], $request->search ?? null);
         }
 
-        return $this->success($translationKeys->paginate(20));
+        return $this->success($translationKeys->get());
     }
 
     public function store(Request $request): JsonResponse
@@ -85,7 +85,7 @@ class TranslationsController extends MainController
 
         foreach ($translations as $t) {
             $trans[] = [
-                "text" => $t["text"],
+                "text" => $t["text"] ?? "NEEDS TRANSLATION",
                 "localization_package_languages_id" => $t["language_id"]
             ];
         }
