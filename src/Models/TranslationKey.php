@@ -18,7 +18,8 @@ class TranslationKey extends Model
                 'localization_package_translated_keys_id',
                 'localization_package_languages_id'
             )->as('translation_value')
-            ->withPivot('text');
+            ->withPivot('text')
+            ->distinct();
     }
 
     public function translation_values()
