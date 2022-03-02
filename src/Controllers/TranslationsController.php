@@ -8,11 +8,18 @@ use Rinordreshaj\Localization\Models\TranslationKey;
 
 class TranslationsController extends MainController
 {
-    public function all()
+    public function all(Request $request)
     {
+        $translationKeys = TranslationKey::query()->with('translations');
+
+        if ($request->search) {
+            $translationKeys->whereLike([
+                'translation_key'
+            ], $request->search ?? null);
+        }
+
         return $this->success(
-            TranslationKey::with('translations')
-                ->get()
+            $translationKeys->paginate(20)
         );
     }
 
@@ -31,7 +38,7 @@ class TranslationsController extends MainController
         if ($request->search) {
             $translationKeys->whereLike([
                 'translation_key'
-            ], request()->get('search') ?? null);
+            ], $request->search ?? null);
         }
 
         return $this->success($translationKeys->paginate(20));
