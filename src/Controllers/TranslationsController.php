@@ -8,6 +8,14 @@ use Rinordreshaj\Localization\Models\TranslationKey;
 
 class TranslationsController extends MainController
 {
+    public function all()
+    {
+        return $this->success(
+            TranslationKey::with('translations')
+                ->get()
+        );
+    }
+
     public function index(Request $request): JsonResponse
     {
         $this->validate($request, [
