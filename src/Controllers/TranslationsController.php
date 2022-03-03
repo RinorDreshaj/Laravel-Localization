@@ -62,7 +62,7 @@ class TranslationsController extends MainController
     public function update(Request $request, $translation_id): JsonResponse
     {
         $translation_key = TranslationKey::findOrFail($translation_id);
-        $translation_key->update($request->only('translation_key'));
+        $translation_key->updateOrCreate($request->only('translation_key'));
 
         if ($request->translations) {
             $translation_key->translations()->sync($this->structure_data($request->translations));
@@ -90,7 +90,7 @@ class TranslationsController extends MainController
             ];
         }
 
-        return $trans;
+        return array_unique($trans, SORT_REGULAR);
     }
 }
 
