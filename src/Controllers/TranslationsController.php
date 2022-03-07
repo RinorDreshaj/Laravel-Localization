@@ -65,6 +65,7 @@ class TranslationsController extends MainController
         $translation_key->updateOrCreate($request->only('translation_key'));
 
         if ($request->translations) {
+            $translation_key->translations()->detach();
             $translation_key->translations()->sync($this->structure_data($request->translations));
         }
 
@@ -86,7 +87,7 @@ class TranslationsController extends MainController
         foreach ($translations as $t) {
             $trans[] = [
                 "text" => $t["text"] ?? "NEEDS TRANSLATION",
-                "localization_package_languages_id" => $t["language_id"]
+                "localization_package_languages_id" => $t["language_id"],
             ];
         }
 
