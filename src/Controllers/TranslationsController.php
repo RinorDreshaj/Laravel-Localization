@@ -4,7 +4,9 @@ namespace Rinordreshaj\Localization\Controllers;
 
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Rinordreshaj\Localization\Models\Language;
 use Rinordreshaj\Localization\Models\TranslationKey;
+use Rinordreshaj\Localization\Models\TranslationValue;
 
 class TranslationsController extends MainController
 {
@@ -80,13 +82,36 @@ class TranslationsController extends MainController
         return $this->success([]);
     }
 
+    public function storeKeys(Request $request)
+    {
+        $request->validate([
+            'keys' => 'required|array',
+        ]);
+        $keys = collect($request->keys);
+        $keys->each(function ($key) {
+            if (TranslationKey::where('translation_key', $key)->doesntExist()) {
+                $translation_key = TranslationKey::create([
+                    'translation_key' => $key,
+                ]);
+                $languages = Language::get();
+                foreach ($languages as $language) {
+                    TranslationValue::updateOrCreate([
+                        'localization_package_translated_keys_id' => $translation_key->id,
+                        'localization_package_languages_id' => $language->id,
+                    ]);
+                }
+            }
+        });
+        return $this->success([]);
+    }
+
     private function structure_data($translations): array
     {
         $trans = [];
 
         foreach ($translations as $t) {
             $trans[] = [
-                "text" => $t["text"] ?? "NEEDS TRANSLATION",
+                "text" => $t["text"] ?? null,
                 "localization_package_languages_id" => $t["language_id"],
             ];
         }
