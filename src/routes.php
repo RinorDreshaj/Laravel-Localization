@@ -11,5 +11,6 @@ Route::delete('localizations/languages/{language}', [LanguagesController::class,
 Route::get('localizations/translations/all', [TranslationsController::class, 'all']);
 Route::get('localizations/translations', [TranslationsController::class, 'index']);
 Route::post('localizations/translations', [TranslationsController::class, 'store']);
+Route::post('localizations/translations/store-keys', [TranslationsController::class, 'storeKeys']);
 Route::put('localizations/translations/{translation}', [TranslationsController::class, 'update']);
 Route::delete('localizations/translations/{translation}', [TranslationsController::class, 'destroy']);
