@@ -15,8 +15,9 @@ class TranslationsController extends MainController
         $translationKeys = TranslationKey::query()->with('translations');
 
         if ($request->search) {
-            $translationKeys->whereLike([
-                'translation_key'
+            $translationKeys->whereLikeRelation([
+                'translation_key',
+                'translation_values.text',
             ], $request->search ?? null);
         }
 
@@ -38,8 +39,9 @@ class TranslationsController extends MainController
             });
 
         if ($request->search) {
-            $translationKeys->whereLike([
-                'translation_key'
+            $translationKeys->whereLikeRelation([
+                'translation_key',
+                'translation_values.text',
             ], $request->search ?? null);
         }
 
