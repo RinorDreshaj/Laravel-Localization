@@ -53,7 +53,7 @@ class TranslationsController extends MainController
         $this->validate($request, [
             'translation_key' => 'required|string|min:2|unique:localization_package_translated_keys',
             'translations.*.language_id' => 'required|exists:localization_package_languages,id',
-            'translations.*.text' => 'required',
+            'translations.*.text' => 'required|max:500',
         ]);
 
         $translation_key = TranslationKey::create($request->only('translation_key'));
@@ -65,6 +65,12 @@ class TranslationsController extends MainController
 
     public function update(Request $request, $translation_id): JsonResponse
     {
+        $this->validate($request, [
+            'translation_key' => 'required|string|min:2|unique:localization_package_translated_keys',
+            'translations.*.language_id' => 'required|exists:localization_package_languages,id',
+            'translations.*.text' => 'required|max:500',
+        ]);
+
         $translation_key = TranslationKey::findOrFail($translation_id);
         $translation_key->updateOrCreate($request->only('translation_key'));
 
