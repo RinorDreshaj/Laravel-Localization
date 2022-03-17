@@ -15,7 +15,7 @@ class LocalizationPackageTranslatedValues extends Migration
     {
         Schema::create('localization_package_translated_values', function (Blueprint $table) {
             $table->id();
-            $table->string('text');
+            $table->longText('text');
 
             $table->unsignedBigInteger('localization_package_translated_keys_id');
             $table->unsignedBigInteger('localization_package_languages_id');
