@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Rinordreshaj\Localization\Models\Language;
 use Rinordreshaj\Localization\Models\TranslationKey;
 use Rinordreshaj\Localization\Models\TranslationValue;
+use Rinordreshaj\Localization\Rules\MaxWordsRule;
 
 class TranslationsController extends MainController
 {
@@ -53,7 +54,10 @@ class TranslationsController extends MainController
         $this->validate($request, [
             'translation_key' => 'required|string|min:2|unique:localization_package_translated_keys',
             'translations.*.language_id' => 'required|exists:localization_package_languages,id',
-            'translations.*.text' => 'required|max:500',
+            'translations.*.text' => [
+                'required',
+                new MaxWordsRule(500),
+            ],
         ]);
 
         $translation_key = TranslationKey::create($request->only('translation_key'));
@@ -121,4 +125,3 @@ class TranslationsController extends MainController
         return array_unique($trans, SORT_REGULAR);
     }
 }
-
